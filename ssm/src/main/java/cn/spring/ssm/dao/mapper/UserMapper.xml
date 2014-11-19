@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.spring.ssm.dao.UserDao">
+
+	<sql id="Base_Column_List" >  
+	     id,state,nickname  
+	</sql> 
+
+	<!-- 单个插入 -->
+	<insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+		insert into user(
+		state,
+		nickname)
+		values
+		(
+		#{state},
+		#{nickname})
+	</insert>
+	
+	<!-- 批量插入 -->
+	<insert id="batchInsertUser" useGeneratedKeys="true" parameterType="java.util.List">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">  
+        SELECT  
+        LAST_INSERT_ID()  
+    </selectKey> 
+		insert into user( state, nickname)
+		values
+		<foreach collection="list" item="item" index="idex" separator=",">
+			(#{item.state},#{item.nickname})
+		</foreach>
+	</insert>
+	
+	<select id="countAll" resultType="int">
+		select count(*) from user
+	</select>
+	
+	<select id="getAllList" resultType="User">
+		select * from user limit
+		#{offset},#{rows}
+	</select>
+
+</mapper>
