@@ -13,7 +13,6 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	
 	public int insertUser(User user) {
-		// TODO Auto-generated method stub
 		return userDao.insertUser(user);
 	}
 
